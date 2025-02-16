@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,15 @@ namespace WatchParty.Controllers
         {
             _movieService = movieService;
         }
+
+
         // GET: Movies
         public async Task<IActionResult> Index()
         {
             return View(await _movieService.GetAllAsync());
         }
 
+        [Authorize]
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,12 +47,14 @@ namespace WatchParty.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Movies/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,6 +68,7 @@ namespace WatchParty.Controllers
             return View(movieDto);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -78,6 +85,7 @@ namespace WatchParty.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Movies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -110,6 +118,7 @@ namespace WatchParty.Controllers
             return View(movieDto);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -127,6 +136,7 @@ namespace WatchParty.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -43,12 +44,14 @@ namespace WatchParty.Controllers
             return View(actor);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Actors/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Actors/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,6 +65,7 @@ namespace WatchParty.Controllers
             return View(actorDto);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Actors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -78,6 +82,7 @@ namespace WatchParty.Controllers
             return View(actor);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Actors/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -110,6 +115,7 @@ namespace WatchParty.Controllers
             return View(actorDto);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Actors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -127,6 +133,8 @@ namespace WatchParty.Controllers
             return View(actor);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // POST: Actors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

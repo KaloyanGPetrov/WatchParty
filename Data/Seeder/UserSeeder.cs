@@ -42,6 +42,8 @@ namespace WatchParty.Data.Seeder
                     await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
             }
+
+            
         }
     }
 }

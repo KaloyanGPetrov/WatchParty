@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace WatchParty.Controllers
         {
             _categoryService = categoryService;
         }
+
         // GET: Categories
         public async Task<IActionResult> Index()
         {
@@ -43,12 +45,14 @@ namespace WatchParty.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,6 +66,7 @@ namespace WatchParty.Controllers
             return View(categoryDto);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -78,9 +83,8 @@ namespace WatchParty.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CategoryDTO categoryDto)
@@ -112,6 +116,8 @@ namespace WatchParty.Controllers
             return View(categoryDto);
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -129,6 +135,7 @@ namespace WatchParty.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
