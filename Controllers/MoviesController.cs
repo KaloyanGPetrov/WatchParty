@@ -52,7 +52,7 @@ namespace WatchParty.Controllers
         // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Description")] MovieDTO movieDto)
+        public async Task<IActionResult> Create(MovieDTO movieDto)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace WatchParty.Controllers
         // POST: Movies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description")] MovieDTO movieDto)
+        public async Task<IActionResult> Edit(int id, MovieDTO movieDto)
         {
             if (id != movieDto.ID)
             {

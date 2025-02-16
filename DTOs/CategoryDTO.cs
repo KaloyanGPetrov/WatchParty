@@ -8,6 +8,6 @@ namespace WatchParty.DTOs
 
         public string Description { get; set; }
 
-        public List<MovieDTO> Movies { get; } = [];
+        public ICollection<MovieDTO> ?Movies { get; } = [];
     }
 }

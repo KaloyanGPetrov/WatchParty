@@ -14,6 +14,6 @@ namespace WatchParty.DTOs
 
         public string ImageUrl { get; set; }
 
-        public List<MovieDTO> Movies { get; set;}
+        public ICollection<MovieDTO> ?Movies { get; set;}
     }
 }

@@ -52,7 +52,7 @@ namespace WatchParty.Controllers
         // POST: Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Description")] CategoryDTO categoryDto)
+        public async Task<IActionResult> Create(CategoryDTO categoryDto)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace WatchParty.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description")] CategoryDTO categoryDto)
+        public async Task<IActionResult> Edit(int id, CategoryDTO categoryDto)
         {
             if (id != categoryDto.ID)
             {
