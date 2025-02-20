@@ -1,4 +1,4 @@
-﻿@model WatchParty.DTOs.ActorDTO
+﻿@model WatchParty.DTOs.ActorCreateEditDTO
 
 @{
     ViewData["Title"] = "Create";
@@ -31,6 +31,10 @@
                 <label asp-for="ImageUrl" class="control-label"></label>
                 <input asp-for="ImageUrl" class="form-control" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoviesIds" class="control-label"></label>
+                <select multiple="multiple" asp-for="MoviesIds" class="form-control" asp-items="@(new MultiSelectList(ViewBag.Movies, "ID", "Name"))"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

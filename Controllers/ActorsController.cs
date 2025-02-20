@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using WatchParty.Data;
 using WatchParty.Data.Enteties;
 using WatchParty.DTOs;
+using WatchParty.Services;
 using WatchParty.Services.Abstractions;
 
 namespace WatchParty.Controllers
@@ -16,10 +17,12 @@ namespace WatchParty.Controllers
     public class ActorsController : Controller
     {
         private readonly IActorServices _actorService;
+        private readonly IMovieServices _movieService;
 
-        public ActorsController(IActorServices actorService)
+        public ActorsController(IActorServices actorService, IMovieServices movieServices)
         {
             _actorService = actorService;
+            _movieService = movieServices;
         }
         // GET: Actors
         public async Task<IActionResult> Index()
@@ -46,8 +49,9 @@ namespace WatchParty.Controllers
 
         [Authorize(Roles = "Admin")]
         // GET: Actors/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Movies = await _movieService.GetAllAsync();
             return View();
         }
 
@@ -55,7 +59,7 @@ namespace WatchParty.Controllers
         // POST: Actors/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ActorDTO actorDto)
+        public async Task<IActionResult> Create(ActorCreateEditDTO actorDto)
         {
             if (ModelState.IsValid)
             {
@@ -74,19 +78,29 @@ namespace WatchParty.Controllers
                 return NotFound();
             }
 
-            var actor = await _actorService.GetByIdAsync(id.Value);
+            var actor = await _actorService.GetByIdEditAsync(id.Value);
             if (actor == null)
             {
                 return NotFound();
             }
-            return View(actor);
+            ViewBag.Movies = await _movieService.GetAllAsync();
+
+            return View(new ActorCreateEditDTO()
+            {
+                ID = actor.ID,
+                FirstName = actor.FirstName,
+                LastName = actor.LastName,
+                Age = actor.Age,
+                ImageUrl = actor.ImageUrl,
+                MoviesIds = actor.MoviesIds
+            });
         }
 
         [Authorize(Roles = "Admin")]
         // POST: Actors/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, ActorDTO actorDto)
+        public async Task<IActionResult> Edit(int id, ActorCreateEditDTO actorDto)
         {
             if (id != actorDto.ID)
             {

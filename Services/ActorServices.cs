@@ -10,18 +10,28 @@ namespace WatchParty.Services
     public class ActorServices : IActorServices
     {
         private readonly IActorRepository _actorRepository;
+        private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
-        public ActorServices(IActorRepository actorRepository, IMapper mapper)
+        public ActorServices(IActorRepository actorRepository, IMovieRepository movieRepository ,IMapper mapper)
         {
             _actorRepository = actorRepository;
+            _movieRepository = movieRepository;
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(ActorDTO dto)
+        public async Task CreateAsync(ActorCreateEditDTO dto)
         {
             Actor actor = _mapper.Map<Actor>(dto);
+
+            var movies = dto.MoviesIds
+               .Select(item => _movieRepository.GetByIdAsync(item).Result)
+               .ToList();
+
+            actor.Movies = movies;
+
             await _actorRepository.CreateAsync(actor);
         }
+
 
         public async Task DeleteAsync(int dtoId)
         {
@@ -40,16 +50,29 @@ namespace WatchParty.Services
             return _mapper.Map<ActorDTO>(actor);
         }
 
+        public async Task<ActorCreateEditDTO> GetByIdEditAsync(int id)
+        {
+            var actor = await _actorRepository.GetByIdAsync(id);
+            return _mapper.Map<ActorCreateEditDTO>(actor);
+        }
+
         public ICollection<ActorDTO> GetByName(string name)
         {
-            var actors = _actorRepository.GetByFilter(act => act.FirstName == name || act.LastName == name);
+            var actors =  _actorRepository.GetByFilter(act => act.FirstName == name || act.LastName == name);
             return _mapper.Map<ICollection<ActorDTO>>(actors);
         }
 
-        public async Task UpdateAsync(ActorDTO dto)
+
+        public async Task UpdateAsync(ActorCreateEditDTO dto)
         {
             Actor actor = _mapper.Map<Actor>(dto);
-            await _actorRepository.UpdateAsync(actor);
+
+            List<Movie> movies = new List<Movie>() { };
+
+            movies = dto.MoviesIds.Select(item => _movieRepository.GetByIdAsync(item).Result).ToList();
+
+            await _actorRepository.UpdateActor(actor, movies);
         }
+
     }
 }

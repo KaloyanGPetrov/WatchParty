@@ -10,6 +10,9 @@ namespace WatchParty.Profiles
         {
             CreateMap<Actor, ActorDTO>()
                 .ReverseMap();
+
+            CreateMap<Actor, ActorCreateEditDTO>()
+                .ReverseMap();
         }
     }
 }
