@@ -15,8 +15,8 @@ namespace WatchParty.DTOs
 
         public string VideoPath { get; set; }
 
-        public ICollection<ActorDTO> ?Actors { get; } = [];
+        public List<ActorDTO> ?Actors { get; set; }
 
-        public ICollection<CategoryDTO> ?Categories { get; } = [];
+        public List<CategoryDTO> ?Categories { get; set; } 
     }
 }

@@ -35,6 +35,76 @@
             @Html.DisplayFor(model => model.VideoPath)
         </dd>
     </dl>
+    <h5>Categories : </h5>
+    @if (Model.Categories.Count <= 0)
+    {
+        <div>There are no categories in for this movie yet.</div>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Categories.First().Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Categories.First().Description)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Categories)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <h5>Staring : </h5>
+    @if (Model.Actors.Count <= 0)
+    {
+        <div>There are no actors in for this movie yet.</div>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Actors.First().ImageUrl)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Actors.First().FirstName)
+                    </th>
+                    <th>@Html.DisplayNameFor(model => model.Actors.First().LastName)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Actors)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ImageUrl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.ID">Edit</a> |

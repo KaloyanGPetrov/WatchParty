@@ -16,10 +16,15 @@ namespace WatchParty.Controllers
     public class MoviesController : Controller
     {
         private readonly IMovieServices _movieService;
+        private readonly IActorServices _actorService;
+        private readonly ICategoryServices _categoryServices;
 
-        public MoviesController(IMovieServices movieService)
+
+        public MoviesController(IMovieServices movieService, IActorServices actorService, ICategoryServices categoryServices)
         {
             _movieService = movieService;
+            _actorService = actorService;
+            _categoryServices = categoryServices;   
         }
 
 
@@ -49,8 +54,10 @@ namespace WatchParty.Controllers
 
         [Authorize(Roles = "Admin")]
         // GET: Movies/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Actors = await _actorService.GetAllAsync();
+            ViewBag.Categories = await _categoryServices.GetAllAsync();
             return View();
         }
 
@@ -58,7 +65,7 @@ namespace WatchParty.Controllers
         // POST: Movies/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MovieDTO movieDto)
+        public async Task<IActionResult> Create(MovieCreateEditDTO movieDto)
         {
             if (ModelState.IsValid)
             {
@@ -77,19 +84,32 @@ namespace WatchParty.Controllers
                 return NotFound();
             }
 
-            var movie = await _movieService.GetByIdAsync(id.Value);
+            var movie = await _movieService.GetByIdEditAsync(id.Value);
             if (movie == null)
             {
                 return NotFound();
             }
-            return View(movie);
+            ViewBag.Actors = await _actorService.GetAllAsync();
+            ViewBag.Categories = await _categoryServices.GetAllAsync();
+
+            return View(new MovieCreateEditDTO()
+            {
+                ID = movie.ID,
+                Name = movie.Name,
+                Description = movie.Description,
+                ImageUrl = movie.ImageUrl,
+                VideoPath = movie.VideoPath,
+                ActorIds = movie.ActorIds,
+                CategoryIds = movie.CategoryIds
+
+            });
         }
 
         [Authorize(Roles = "Admin")]
         // POST: Movies/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, MovieDTO movieDto)
+        public async Task<IActionResult> Edit(int id, MovieCreateEditDTO movieDto)
         {
             if (id != movieDto.ID)
             {
