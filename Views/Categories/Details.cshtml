@@ -34,7 +34,7 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Movies.First().ImageUrl)
+                        Image
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Movies.First().Name)
@@ -47,7 +47,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ImageUrl)
+                            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="300" />
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
