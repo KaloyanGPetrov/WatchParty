@@ -25,12 +25,26 @@ namespace WatchParty.Services
         public async Task CreateAsync(MovieCreateEditDTO dto)
         {
             Movie movie = _mapper.Map<Movie>(dto);
+            if (dto.CategoryIds != null)
+            {
+                var categories = dto.CategoryIds.Select(item => _categoryRepository.GetByIdAsync(item).Result).ToList();
+                movie.Categories = categories;
+            }
+            else
+            {
+                movie.Categories = new List<Category>();
+            }
 
-            var categories = dto.CategoryIds.Select(item => _categoryRepository.GetByIdAsync(item).Result).ToList();
-            var actors = dto.ActorIds.Select(item => _actorRepository.GetByIdAsync(item).Result).ToList();
+            if (dto.ActorIds != null)
+            {
+                var actors = dto.ActorIds.Select(item => _actorRepository.GetByIdAsync(item).Result).ToList();
+                movie.Actors = actors; 
+            }
+            else
+            {
+                movie.Actors = new List<Actor>();
+            }
 
-            movie.Categories = categories;
-            movie.Actors = actors; 
 
             await _movieRepository.CreateAsync(movie);
         }
@@ -64,15 +78,47 @@ namespace WatchParty.Services
             return _mapper.Map<ICollection<MovieDTO>>(movies);
         }
 
+        public  ICollection<MovieDTO> GetByCategory(string category)
+        {
+            var categoryModel = _categoryRepository.GetByFilter(c => c.Name == category);
+            if (categoryModel.Count > 0)
+            {
+                var movies = _movieRepository.GetByFilter(m => m.Categories.Contains(categoryModel.First()));
+                return _mapper.Map<ICollection<MovieDTO>>(movies);
+            }
+            else
+            {
+                var movies = new List<MovieDTO>();
+                return _mapper.Map<ICollection<MovieDTO>>(movies);
+            }
+        }
+
         public async Task UpdateAsync(MovieCreateEditDTO dto)
         {
             Movie movie = _mapper.Map<Movie>(dto);
 
-            List<Actor> actors = new List<Actor>() { };
-            List<Category> categories = new List<Category>() { };
+            List<Category> categories;
+            List<Actor> actors;
 
-            actors = dto.ActorIds.Select(item => _actorRepository.GetByIdAsync(item).Result).ToList();
-            categories = dto.CategoryIds.Select(item => _categoryRepository.GetByIdAsync(item).Result).ToList();
+            if (dto.CategoryIds != null)
+            {
+                categories = dto.CategoryIds.Select(item => _categoryRepository.GetByIdAsync(item).Result).ToList();
+                
+            }
+            else
+            {
+                categories = new List<Category>();
+            }
+
+            if (dto.ActorIds != null)
+            {
+                actors = dto.ActorIds.Select(item => _actorRepository.GetByIdAsync(item).Result).ToList();
+              
+            }
+            else
+            {
+                actors = new List<Actor>();
+            }
 
             await _movieRepository.UpdateMovie(movie, actors, categories);
         }

@@ -84,6 +84,7 @@ namespace WatchParty.Controllers
                 return NotFound();
             }
             ViewBag.Movies = await _movieService.GetAllAsync();
+            ViewBag.SelectedMovies = actor.Movies.Select(movie => movie.ID).ToList();
 
             return View(new ActorCreateEditDTO()
             {

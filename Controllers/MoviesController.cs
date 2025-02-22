@@ -34,6 +34,12 @@ namespace WatchParty.Controllers
             return View(await _movieService.GetAllAsync());
         }
 
+        [Route("Movies/Category/{name}")]
+        public async Task<IActionResult> Category(string name)
+        {
+            return View(_movieService.GetByCategory(name));
+        }
+
         [Authorize]
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -57,6 +63,7 @@ namespace WatchParty.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Actors = await _actorService.GetAllAsync();
+            
             ViewBag.Categories = await _categoryServices.GetAllAsync();
             return View();
         }
@@ -90,7 +97,9 @@ namespace WatchParty.Controllers
                 return NotFound();
             }
             ViewBag.Actors = await _actorService.GetAllAsync();
+            ViewBag.SelectedActors = movie.Actors.Select(actor => actor.ID).ToList(); 
             ViewBag.Categories = await _categoryServices.GetAllAsync();
+            ViewBag.SelectedCategories = movie.Categories.Select(cat => cat.ID).ToList(); 
 
             return View(new MovieCreateEditDTO()
             {

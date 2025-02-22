@@ -15,5 +15,13 @@ namespace WatchParty.DTOs
         public string ImageUrl { get; set; }
 
         public List<MovieDTO> ?Movies { get; set;}
+
+        public string FullName 
+        { 
+            get 
+            {
+                return $"{FirstName} {LastName}";
+            } 
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Security.AccessControl;
 using WatchParty.Data.Enteties;
 using WatchParty.DTOs;
 using WatchParty.Repositories;
@@ -23,12 +24,18 @@ namespace WatchParty.Services
         {
             Actor actor = _mapper.Map<Actor>(dto);
 
-            var movies = dto.MoviesIds
-               .Select(item => _movieRepository.GetByIdAsync(item).Result)
-               .ToList();
+            if (dto.MoviesIds != null)
+            {
+                var movies = dto.MoviesIds
+                   .Select(item => _movieRepository.GetByIdAsync(item).Result)
+                   .ToList();
 
-            actor.Movies = movies;
-
+                actor.Movies = movies;
+            }
+            else
+            {
+                actor.Movies = new List<Movie>();
+            }
             await _actorRepository.CreateAsync(actor);
         }
 
@@ -66,10 +73,19 @@ namespace WatchParty.Services
         public async Task UpdateAsync(ActorCreateEditDTO dto)
         {
             Actor actor = _mapper.Map<Actor>(dto);
+            List<Movie> movies;
 
-            List<Movie> movies = new List<Movie>() { };
+            if (dto.MoviesIds != null)
+            {
+                movies = dto.MoviesIds
+                   .Select(item => _movieRepository.GetByIdAsync(item).Result)
+                   .ToList();
+            }
+            else
+            {
+                movies = new List<Movie>();
+            }
 
-            movies = dto.MoviesIds.Select(item => _movieRepository.GetByIdAsync(item).Result).ToList();
 
             await _actorRepository.UpdateActor(actor, movies);
         }
