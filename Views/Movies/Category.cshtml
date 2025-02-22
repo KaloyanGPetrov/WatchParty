@@ -3,47 +3,36 @@
 @{
     ViewData["Title"] = "Category";
 }
+<link rel="stylesheet" href="~/css/websiteStyle.css" asp-append-version="true" />
 
-<h2>Movies</h2>
+<div class="container">
+    <h2></h2>
 
-<p>
-    
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categories)
-            </th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.ID"> <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="80" /> </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryNames)
-                </td>
-
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a>
-
-                </td>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Categories</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.ID">
+                            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" class="img-thumbnail" width="80" />
+                        </a>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CategoryNames)</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

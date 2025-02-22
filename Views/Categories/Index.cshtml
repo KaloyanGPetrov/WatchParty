@@ -3,39 +3,33 @@
 @{
     ViewData["Title"] = "Index";
 }
+<link rel="stylesheet" href="~/css/websiteStyle.css" asp-append-version="true" />
 
-<h2>Movie Categories</h2>
-
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-area="" asp-controller="Movies" asp-action="Category" asp-route-id="@item.Name"> See Movies</a> | 
-                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info">Details</a> 
-       
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+    <h2>Movie Categories</h2>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>
+                        <a asp-area="" asp-controller="Movies" asp-action="Category" asp-route-id="@item.Name" class="btn btn-info">See Movies</a>
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

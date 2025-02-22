@@ -1,56 +1,57 @@
 ﻿@model WatchParty.DTOs.MovieCreateEditDTO
+
 @{
     ViewData["Title"] = "Edit";
 }
+<link rel="stylesheet" href="~/css/websiteStyle.css" asp-append-version="true" />
 
-<h2>Edit</h2>
-
-<h4>Movie</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="VideoPath" class="control-label"></label>
-                <input asp-for="VideoPath" class="form-control" />
-                <span asp-validation-for="VideoPath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryIds" class="control-label"></label>
-                <select multiple="multiple" asp-for="CategoryIds" class="form-control" asp-items="@(new MultiSelectList(ViewBag.Categories, "ID", "Name", ViewBag.SelectedCategories))"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ActorIds" class="control-label"></label>
-                <select multiple="multiple" asp-for="ActorIds" class="form-control" asp-items="@(new MultiSelectList(ViewBag.Actors, "ID", "FullName", ViewBag.SelectedActors))"></select>
-            </div>
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container">
+    <h2>Edit Movie</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VideoPath" class="control-label"></label>
+                    <input asp-for="VideoPath" class="form-control" />
+                    <span asp-validation-for="VideoPath" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryIds" class="control-label"></label>
+                    <select multiple="multiple" asp-for="CategoryIds" class="form-control" asp-items="@(new MultiSelectList(ViewBag.Categories, "ID", "Name", ViewBag.SelectedCategories))"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ActorIds" class="control-label"></label>
+                    <select multiple="multiple" asp-for="ActorIds" class="form-control" asp-items="@(new MultiSelectList(ViewBag.Actors, "ID", "FullName", ViewBag.SelectedActors))"></select>
+                </div>
+                <input type="hidden" asp-for="ID" />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -27,7 +27,13 @@ namespace WatchParty.DTOs
                 if (Categories.Count > 0)
                 {
                     names = Categories.First().Name;
-                    for (int i = 1; i < Categories.Count; i++) names += $", {Categories[i].Name}";
+                    if (Categories.Count <=5) 
+                        for (int i = 1; i < Categories.Count; i++) names += $", {Categories[i].Name}";
+                    else
+                    {
+                        for (int i = 1; i < 5; i++) names += $", {Categories[i].Name}";
+                        names += ", ...";
+                    }
                 }
                 else names = "none";
                 return names;

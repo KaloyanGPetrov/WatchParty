@@ -3,64 +3,25 @@
 @{
     ViewData["Title"] = "Details";
 }
+<link rel="stylesheet" href="~/css/websiteStyle.css" asp-append-version="true" />
 
-<h2>Details</h2>
-
-<div>
-    <h4>Category</h4>
+<div class="container">
+    <h2>Category Details</h2>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-    <h5>Movies with this category:</h5>
-    @if(Model.Movies.Count <= 0)
-    {
-        <div>There are no movies in this category yet.</div>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Image
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Movies.First().Name)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Movies)
-                {
-                    <tr>
-                        <td>
-                            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" width="300" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-    }
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model?.ID" class="btn btn-danger">Delete</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="row">
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+            </dl>
+            
+        </div>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-primary">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model?.ID" class="btn btn-danger">Delete</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>
