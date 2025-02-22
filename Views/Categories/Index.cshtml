@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>Movie Categories</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -32,7 +32,7 @@
             </td>
             <td>
                 <a asp-area="" asp-controller="Movies" asp-action="Category" asp-route-id="@item.Name"> See Movies</a> | 
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> 
+                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info">Details</a> 
        
             </td>
         </tr>
